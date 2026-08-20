@@ -1,5 +1,5 @@
 {
-  "name": "react-example",
+  "name": "geoconsult-pro",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -11,7 +11,6 @@
     "lint": "tsc --noEmit"
   },
   "dependencies": {
-    "@google/genai": "^1.29.0",
     "@tailwindcss/vite": "^4.1.14",
     "@vis.gl/react-google-maps": "^1.8.3",
     "@vitejs/plugin-react": "^5.0.4",

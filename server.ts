@@ -6,7 +6,9 @@ import * as XLSX from 'xlsx';
 import { createServer as createViteServer } from 'vite';
 
 const app = express();
-const PORT = 3000;
+// Azure App Service (and most cloud hosts) assign the port via process.env.PORT.
+// Fall back to 3000 for local development.
+const PORT = Number(process.env.PORT) || 3000;
 
 app.use(express.json());
 
@@ -651,7 +653,7 @@ async function startServer() {
   }
 
   app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`Server running on port ${PORT}`);
   });
 }
 
