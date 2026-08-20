@@ -6,7 +6,7 @@ import * as XLSX from 'xlsx';
 import { createServer as createViteServer } from 'vite';
 
 const app = express();
-const PORT = 3000;
+const PORT = Number(process.env.PORT) || 3000;
 
 app.use(express.json());
 
@@ -72,7 +72,7 @@ function loadSession(): OneDriveSession | null {
 function saveSession(session: OneDriveSession | null) {
   try {
     if (session) {
-      fs.writeFileSync(SESSION_FILE, JSON.stringify(session, null, 2), 'utf-8');
+      fs.writeFileSync(SESSION_FILE, JSON.stringify(session, null, 2));
     } else if (fs.existsSync(SESSION_FILE)) {
       fs.unlinkSync(SESSION_FILE);
     }
@@ -377,7 +377,7 @@ async function syncRecordToOneDrive(record: MileageRecord): Promise<boolean> {
 app.get('/api/auth/status', async (req, res) => {
   const session = loadSession();
   const credentials = getOauthCredentials();
-  
+
   if (!session) {
     return res.json({
       connected: false,
@@ -406,7 +406,7 @@ app.get('/api/auth/status', async (req, res) => {
 // Construct & return OneDrive OAuth start URL
 app.get('/api/auth/microsoft/url', (req, res) => {
   const { clientId } = getOauthCredentials();
-  
+
   if (!clientId) {
     return res.status(500).json({ error: 'La clave de Cliente de Microsoft (MICROSOFT_CLIENT_ID) no está configurada.' });
   }
