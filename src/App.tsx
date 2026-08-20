@@ -357,7 +357,15 @@ function MileageApp() {
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
       const origin = event.origin;
-      if (!origin.endsWith('.run.app') && !origin.includes('localhost')) {
+      // Accept the OAuth callback message from the origins this app may be
+      // hosted on: local dev, Google AI Studio / Cloud Run, Azure App Service,
+      // or whatever origin the app itself is currently served from.
+      const isAllowedOrigin =
+        origin.includes('localhost') ||
+        origin.endsWith('.run.app') ||
+        origin.endsWith('.azurewebsites.net') ||
+        origin === window.location.origin;
+      if (!isAllowedOrigin) {
         return;
       }
       if (event.data?.type === 'MS_AUTH_SUCCESS') {
